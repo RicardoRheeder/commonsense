@@ -95,3 +95,5 @@ app.run('0.0.0.0', port=443, keyfile='privkey.pem', certfile='fullchain.pem')
 https://hci-mturk3.usask.ca:443
 
 If lab servers retarted, stop the apache process on port 443: sudo service apache2 stop
+
+            parent: ["www.hci-mturk3.usask.ca", "hci-mturk3.usask.ca"]

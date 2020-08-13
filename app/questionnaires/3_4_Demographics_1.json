@@ -8,7 +8,7 @@
       "instructions": "Enter the streamer's ID, located at the top left of the game.",
       "datatype": "integer",
       "placeholder": "Streamer's ID",
-      "id": "streamer_ID"
+      "id": "streamerID"
     },
     {
       "questiontype": "num_field",
@@ -133,6 +133,14 @@
       "questiontype": "field",
       "instructions": "If other, please describe.",
       "id": "viewer_type"
+    },
+    {
+      "questiontype": "multi_field",
+      "id": "feedback",
+      "datatype": "text",
+      "placeholder": "Please enter feedback",
+      "instructions": "Do you have any additional thoughts or reflections on your experience with the livestream you undertook for this study?",
+      "height": "150"
     }
   ]
 }
