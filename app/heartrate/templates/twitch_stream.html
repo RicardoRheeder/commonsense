@@ -10,7 +10,9 @@
 
         var f = firebase.initializeApp(firebaseConfig);
         sessionStorage.surveyNum = 0;
-
+        firebase.database().ref("/streamerGivenID").on("value", (snapshot) => {
+            sessionStorage.streamerID = snapshot.val();
+        });
         firebase.database().ref("/session/description").on("value", (snapshot) => {
             sessionStorage.sessionDescription = snapshot.val();
             // console.log(snapshot.val())

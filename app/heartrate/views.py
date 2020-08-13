@@ -80,7 +80,7 @@ def route_email_redirecter():
 @verify_session_valid
 @verify_correct_page
 def route_heartrate_end():
-    return render_template("end.html")
+    return render_template("hr_end.html")
 
 
 @heartrate.route("/hr_window")

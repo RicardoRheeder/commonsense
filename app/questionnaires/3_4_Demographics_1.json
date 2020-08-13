@@ -1,11 +1,11 @@
 {
   "title": "Demographics",
   "instructions": "Please answer the following questions.",
-  "code": "",
+  "code": "<script> \n$('#streamerID').val(sessionStorage.streamerID); \n$('#streamerID').attr('readonly', true); \n</script>",
   "questions": [
     {
       "questiontype": "field",
-      "instructions": "Enter the streamer's ID, located at the top left of the game.",
+      "instructions": "Streamer's ID (Read-only):",
       "datatype": "integer",
       "placeholder": "Streamer's ID",
       "id": "streamerID"
