@@ -90,7 +90,8 @@ sudo cp /etc/letsencrypt/live/hci-mturk3.usask.ca/privkey.pem /home/rir954/commo
 sudo cp /etc/letsencrypt/live/hci-mturk3.usask.ca/fullchain.pem /home/rir954/commonsense-bof/
 
 
-    app.debug = False
-    app.run('0.0.0.0', port=8000, keyfile='privkey.pem', certfile='fullchain.pem')
+app.debug = False
+app.run('0.0.0.0', port=443, keyfile='privkey.pem', certfile='fullchain.pem')
+https://hci-mturk3.usask.ca:443
 
-        app.run('0.0.0.0', port=8000, ssl_context=('fullchain.pem', 'privkey.pem'))
+If lab servers retarted, stop the apache process on port 443: sudo service apache2 stop
