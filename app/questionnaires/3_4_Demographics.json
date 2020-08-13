@@ -1,0 +1,138 @@
+{
+  "title": "Demographics",
+  "instructions": "Please answer the following questions.",
+  "code": "",
+  "questions": [
+    {
+      "questiontype": "field",
+      "instructions": "Enter the streamer's ID, located at the top left of the game.",
+      "datatype": "integer",
+      "placeholder": "Streamer's ID",
+      "id": "streamer_ID"
+    },
+    {
+      "questiontype": "num_field",
+      "datatype": "integer",
+      "instructions": "What is your age?",
+      "id": "age",
+      "required": "true",
+      "placeholder": "18",
+      "min": "1",
+      "max": "120"
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "Indicate your gender:",
+      "id": "gender",
+      "dropheight": "104",
+      "required": "false",
+      "items": [
+        "woman",
+        "man",
+        "non-binary",
+        "I prefer not to disclose"
+      ]
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "Please indicate your ethnicity:",
+      "id": "ethnicity",
+      "dropheight": "208",
+      "dropwidth": "600",
+      "required": "true",
+      "items": [
+        "American Indian or Alaskan Native",
+        "Asian",
+        "Native Hawaiian or Other Pacific Islander",
+        "Black or African American",
+        "Hispanic/Latino",
+        "White",
+        "Two or more categories",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "How often do you watch live streams?",
+      "id": "freq_watch",
+      "required": "true",
+      "items": [
+        "0-3 hours per week",
+        "3-6 hours per week",
+        "6-9 hours per week",
+        "10+ hours per week",
+        "Never"
+      ]
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "How often do you watch this streamer's channel?",
+      "id": "freq_watch_streamer",
+      "required": "true",
+      "items": [
+        "0-3 hours per week",
+        "3-6 hours per week",
+        "6-9 hours per week",
+        "10+ hours per week",
+        "Never"
+      ]
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you have ever seen physiology (e.g., heart rate, eye tracking) integrated into *this* stream, please describe the experience. If never, type N/A.",
+      "id": "physiology",
+      "required": "true"
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you have ever seen physiology (e.g., heart rate, eye tracking) integrated into *any* stream, please describe the experience. If never, type N/A.",
+      "id": "physiology2",
+      "required": "true"
+    },
+    {
+      "questiontype": "field",
+      "instructions": "What forms of audience interactivity have you seen on Twitch in the past (e.g. games that use audience voting)? If none, type N/A.",
+      "id": "interactivity",
+      "required": "true"
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you have seen these interactive elements in the past, have you personally engaged with any?",
+      "id": "participation",
+      "required": "false"
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you have engaged with any of these elements, please describe how they have impacted your viewing experiences.",
+      "id": "participation",
+      "required": "false"
+    },
+    {
+      "questiontype": "slider",
+      "instructions": "Please rate your experience watching/engaging with the audience participation feature in the game you just watched from Unenjoyable to Enjoyable.",
+      "id": "rating",
+      "required": "true",
+      "left": "Unenjoyable",
+      "right": "Enjoyable",
+      "tick_count": 50,
+      "width": 900
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "What type of viewer are you (i.e. active participant, passive viewer/lurker, or other)?",
+      "id": "viewer_type",
+      "dropheight": "52",
+      "required": "true",
+      "items": [
+        "passive",
+        "active",
+        "other"
+      ]
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If other, please describe.",
+      "id": "viewer_type"
+    }
+  ]
+}

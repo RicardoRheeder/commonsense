@@ -1,0 +1,140 @@
+{% extends "template.html" %}
+{% block head %}
+
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_parent.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='firebaseConfig.js') }}"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-database.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnNext").attr("disabled", false);
+        $("#emailForm").hide();
+        $("#hSubmitted").hide();
+
+        var f = firebase.initializeApp(firebaseConfig);
+        var submitted = false;
+        var postKey = localStorage.postKey;
+
+        document.getElementById('key').innerHTML = postKey;
+
+        firebase.database().ref('users/' + localStorage.postKey).once('value', (snapshot) => {
+            var SSVal = snapshot.val()
+
+            if (SSVal.survey1Complete == true && SSVal.survey2Complete == true && SSVal.survey3Complete == true) {
+                $("#emailForm").show();
+                $("#hSubmitted").hide();
+            } else {
+                $("#emailForm").hide();
+                window.location.replace('/redirect_next_page');
+            }
+
+            if (SSVal.hasSentEmail == true) {
+                $("#emailForm").hide();
+                $("#hSubmitted").show();
+                if (submitted == false) {
+                    submitted = true;
+                }
+                document.getElementById('btnNext').value = "Continue"
+
+            }
+
+        });
+
+        $("#btnSubmit").click(function () {
+            $("#emailForm").hide();
+            $("#hSubmitted").show();
+            if (submitted == false) {
+                submitted = true;
+            }
+            location.href = 'mailto:ricardorheeder@gmail.com'
+            // window.location.replace('mailto:ricardorheeder@gmail.com');
+            document.getElementById('btnNext').value = "Continue"
+
+            firebase.database().ref('users/' + localStorage.postKey).update({
+                'hasSentEmail': true,
+            })
+        });
+
+        $("#btnNext").click(function () {
+            window.location.replace('/redirect_next_page');
+            if (submitted == false) {
+                submitted = true;
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<form id="form" method="post" action="{{ url_for('default.submit') }}">
+    <div class="question" style="">
+        <div id="emailForm" class="padding">
+            <h1>Thank you for completing all questionaires!</h1>
+            <br />
+            <h3>Please press the "Send Email" button for a chance to win $$$$. </h3>
+            <br />
+            <ul>
+                <h3>In your email, please include: </h3>
+                <li>
+                    Email Subject/Header set as <b>Common Sense Entry</b>
+                </li>
+                <li>
+                    Your <b>email</b>; (e.g. firstnamelastname@gmail.com)
+                </li>
+                <li>
+                    This unique combination: <b><span id="key">{If key does not show here, please include a screenshot
+                            in
+                            your email}</span> : <span id="num">{{session['participantID']}}</span></b>
+                </li>
+                <li>
+                    *Optional*: Any comments you have about the experiment
+                </li>
+            </ul>
+            <br />
+
+            <p>An example:</p>
+            <b>To: ricardorheeder@gmail.com</b>
+            <br>
+            <b>Header: Common Sense Entry</b>
+            <textarea type="text" readonly rows="4" cols="100">
+            johnny123@gmail.com
+            -ASBDILAasndlkASDJklasd : 345
+            Comment: Thank you!
+            </textarea>
+
+            <p>*Important*: Closing the dialog before sending the email will not add you in the chance to win $$$$</p>
+
+            <br>
+
+            <button type="button" id="btnSubmit" value="Send Email" style="
+                width: 135px;
+                height: 65px;
+                padding: 15px;
+                font-size: 16px;
+                margin: auto;
+                display: block;
+                font-size: 20px !important;
+                border-radius: 8px;">
+                Send Email
+            </button>
+
+        </div>
+        <div id="hSubmitted" class="padding">
+            <h4>SUBMITTED!</h4>
+        </div>
+    </div>
+
+    <div class="navigation padding">
+        <div style="float: right">
+            <input id="btnNext" type="button" value="Skip">
+        </div>
+        <div style="clear: both"></div>
+    </div>
+
+</form>
+
+{% endblock %}

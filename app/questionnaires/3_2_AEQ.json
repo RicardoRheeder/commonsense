@@ -1,0 +1,131 @@
+{
+   "title":"AEQ",
+   "instructions":"Reflect on your experience watching the stream and rate your agreement with the following statements.",
+   "code":"",
+   "questions":[
+      {
+         "questiontype":"radiogrid",
+         "id":"AEQ",
+         "shuffle": "true",
+         "labels":[
+            "Strongly disagree",
+            "Disagree",
+            "Slightly disagree",
+            "Neutral",
+            "Slightly agree",
+            "Agree",
+            "Strongly agree"
+         ],
+        "q_text": [
+          {
+            "id": "q_1",
+            "text": "I enjoyed watching the player."
+          },
+          {
+            "id": "q_2",
+            "text": "I found the game enjoyable."
+          },
+          {
+            "id": "q_3",
+            "text": "I enjoyed my part in the game session."
+          },
+          {
+            "id": "q_4",
+            "text": "I had fun."
+          },
+          {
+            "id": "q_5",
+            "text": "I enjoyed watching the game."
+          },
+          {
+            "id": "q_6",
+            "text": "I found the content and theme of this game enjoyable."
+          },
+          {
+            "id": "q_7",
+            "text": "I felt good."
+          },
+          {
+            "id": "q_8",
+            "text": "I felt happy."
+          },
+          {
+            "id": "q_9",
+            "text": "I felt annoyed."
+          },
+          {
+            "id": "q_10",
+            "text": "I felt embarrassed."
+          },
+          {
+            "id": "q_11",
+            "text": "I felt bored."
+          },
+          {
+            "id": "q_12",
+            "text": "I was fully occupied with the game."
+          },
+          {
+            "id": "q_13",
+            "text": "I was completely engaged in the game."
+          },
+          {
+            "id": "q_14",
+            "text": "I lost track of time."
+          },
+          {
+            "id": "q_15",
+            "text": "I forgot everything around me except the game session."
+          },
+          {
+            "id": "q_16",
+            "text": "I thought about things other than the game session."
+          },
+          {
+            "id": "q_17",
+            "text": "I was deeply concentrating in the game."
+          },
+          {
+            "id": "q_18",
+            "text": "I felt like part of a team."
+          },
+          {
+            "id": "q_19",
+            "text": "I felt involved."
+          },
+          {
+            "id": "q_20",
+            "text": "The player paid close attention to me."
+          },
+          {
+            "id": "q_21",
+            "text": "I felt like I interacted with the player."
+          },
+          {
+            "id": "q_22",
+            "text": "I paid close attention to the player."
+          },
+          {
+            "id": "q_23",
+            "text": "I felt connected to the player."
+          },
+          {
+            "id": "q_24",
+            "text": "What the player did/said affected me."
+          },
+          {
+            "id": "q_25",
+            "text": "What I did/said affected the player."
+          },
+          {
+            "id": "q_26",
+            "text": "I felt like I participated in the game session"
+          },
+          {
+            "id": "q_27",
+            "text": "I felt like an active participant."
+          }
+        ]
+      }
+   ]
+}

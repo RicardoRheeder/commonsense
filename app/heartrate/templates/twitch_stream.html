@@ -1,0 +1,153 @@
+{% extends "template.html" %}
+{% block head %}
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_parent.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='firebaseConfig.js') }}"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-database.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnNext").attr("disabled", true);
+
+        var f = firebase.initializeApp(firebaseConfig);
+        sessionStorage.surveyNum = 0;
+
+        firebase.database().ref("/session/description").on("value", (snapshot) => {
+            sessionStorage.sessionDescription = snapshot.val();
+            // console.log(snapshot.val())
+            // console.log(typeof (snapshot.val()))
+
+            if (sessionStorage.nextSessionDescription == sessionStorage.sessionDescription || sessionStorage.nextSessionDescription == '') {
+                if (snapshot.val() != "Survey1" && snapshot.val() != "Survey2" && snapshot.val() != "Survey3") {
+                    sessionStorage.surveyNum = 0;
+                } else {
+                    // console.log("Session: " + snapshot.val())
+                    $("#btnNext").attr("disabled", false);
+                    $('#instructions').html("<b>You can now start the survey by clicking \"Start Survey\".</b>");
+
+                    if (snapshot.val() == "Survey1") {
+                        sessionStorage.surveyNum = 1;
+                    } else if (snapshot.val() == "Survey2") {
+                        sessionStorage.surveyNum = 2;
+                    } else if (snapshot.val() == "Survey3") {
+                        sessionStorage.surveyNum = 3;
+                    }
+                }
+            }
+        })
+
+        $("#btnNext").click(function () {
+            // $('#form').submit();
+            window.location.replace('/redirect_from_page/twitch_stream_' + sessionStorage.surveyNum);
+
+            // This one throws up an error
+            // window.location.replace('/redirect_to_page/questionnaire/example/' + surveyNum);
+        });
+
+        wChild = window.open("", "bof-child", "height=600,width=800,toolbar=no,menubar=no");
+        var timer = setInterval(checkChild, 1000);
+        function checkChild() {
+            if (wChild && wChild.closed) {
+                alert("For the purposes of the study, it is required that the heartrate window remains open.");
+                open_child_window("/hr_window", undefined, true);
+                wChild.focus();
+            }
+        }
+
+        // $(function () {
+        //     $('a#test').bind('click', function () {
+        //         window.location.replace('/redirect_to_page/questionnaire/example/3');
+        //         return false;
+        //     });
+        // });
+
+
+    });
+</script>
+{% endblock %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en-us">
+
+<body>
+    <!-- <a href=# id=test><button class='btn btn-default'>Test</button></a> -->
+
+    <!-- Add a placeholder for the Twitch embed -->
+    <div style="
+        position: absolute;
+        height: calc(100% - 200px);
+        width: 90%;
+        right: 5%;
+    ">
+        <div id="twitch-embed" style="
+            position: absolute;
+            height: calc(100% - 180px);
+            width: 100%;
+        ">
+
+        </div>
+        <form id="form" method="post" action="{{ url_for('default.submit') }}" style="
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        ">
+
+            <div class="question" style="">
+                <div id="instructions" class="padding">
+                    <b> Once instructed to start the survey, then the button will be enabled. </b>
+                </div>
+            </div>
+
+            <div class="navigation padding">
+                <div style="float: right">
+                    <input id="btnNext" type="button" value="Start Survey">
+                </div>
+                <div style="clear: both"></div>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Load the Twitch embed script -->
+    <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+
+    <!--
+      Create a Twitch.Embed object that will render
+      within the "twitch-embed" root element.
+    -->
+    <!-- <script type="text/javascript">
+        var options = {
+            width: '100%',
+            height: '100%',
+            channel: "monstercat",
+            // video: "<video ID>",
+            // collection: "<collection ID>",
+            // only needed if your site is also embedded on embed.example.com and othersite.example.com
+            parent: ["localhost", "http://172.16.1.71:5000/"]
+        };
+        var player = new Twitch.Player("twitch-embed", options);
+        player.setVolume(0.5);
+    </script> -->
+
+    <script type="text/javascript">
+        var options = {
+            width: '100%',
+            height: '100%',
+            channel: sessionStorage.channelName,
+            layout: "video-with-chat",
+            autoplay: true,
+            parent: ["localhost", "https://hci-mturk3.usask.ca:80/"] // Add website name here when hosting on mturk
+        };
+        var embed = new Twitch.Embed("twitch-embed", options);
+
+        embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+            var player = embed.getPlayer();
+            player.play();
+            player.setVolume(0.1);
+        });
+    </script>
+</body>
+
+</html>
+{% endblock %}

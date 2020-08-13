@@ -1,0 +1,96 @@
+-----------------------------------------------------------------------------------------------
+
+// Setting up VPNs with Usask
+https://wiki.usask.ca/pages/releaseview.action?pageId=1321437649
+
+-----------------------------------------------------------------------------------------------
+
+// Open Cisco AnyConnect and connect to vpn.usask.ca
+
+// Create connection to rir954 mturk3
+ssh rir954@hci-mturk3.usask.ca
+
+// *From local PC* copy files to mturk3
+scp -r ..\commonsense-bof/ rir954@hci-mturk3.usask.ca:/home/rir954/commonsense-bof_30072020
+
+// & - makes the process run in background
+// nohup - allows all output to go to .txt
+nohup python3 run_heartrate.py &
+
+// Kill background process when done with it
+ps -x
+kill <PID>
+
+
+// OR use pm2: https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/
+pm2 start 'python3 run_heartrate.py' --name commonsense
+pm2 delete commonsense
+pm2 stop commonsense
+
+pm2 restart commonsense
+pm2 reload commonsense
+
+pm2 ls
+
+-----------------------------------------------------------------------------------------------
+
+// From .py script
+app.run('0.0.0.0', port=8***)
+
+// Website for participants to connect to
+hci-mturk3.usask.ca:8***
+
+
+// To check permissions
+ls -l
+
+// e.g.
+// permissions | number of links | owner | group | size | date | folder
+drwxr-xr-x  3 rir954 rir954     4096 Aug  6 16:45 rir954
+
+// make a directory
+sudo mkdir rir954
+
+// Set owner of folder/file recursively
+sudo chown -R rir954 /home/rir954
+
+// Set group of folder/file recursively
+sudo chown -R :rir954 /home/rir954
+
+// To have unix shortcuts and run everything through sudo
+sudo su
+
+// Add new user to server
+useradd vkb698
+passwd vkb698
+usermod -a -G sudo vkb698
+
+-----------------------------------------------------------------------------------------------
+Quick references
+-----------------------------------------------------------------------------------------------
+
+BOF: https://github.com/colbyj/bride-of-frankensystem
+HR BP: https://git.cs.usask.ca/cgj130/bride-of-frankensystem
+
+Wiki: https://github.com/colbyj/bride-of-frankensystem/wiki
+
+
+// Hosting on ngrok
+
+https://ngrok.com/
+console input: ngrok http 80
+
+- Go to: chrome://flags/
+- Add ngrok site to: Insecure origins treated as secure
+
+sudo ls /etc/letsencrypt/live/hci-mturk3.usask.ca/
+sudo nano /etc/letsencrypt/live/hci-mturk3.usask.ca/README
+
+sudo cp /etc/letsencrypt/live/hci-mturk3.usask.ca/privkey.pem /home/rir954/commonsense-bof/
+sudo cp /etc/letsencrypt/live/hci-mturk3.usask.ca/fullchain.pem /home/rir954/commonsense-bof/
+
+
+    app.debug = False
+    app.run('0.0.0.0', port=8000, keyfile='privkey.pem', certfile='fullchain.pem')
+
+        app.run('0.0.0.0', port=8000, ssl_context=('fullchain.pem', 'privkey.pem'))

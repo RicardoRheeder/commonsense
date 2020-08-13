@@ -1,0 +1,16 @@
+{  
+    "title":"Effect",
+  "instructions": "Please indicate the degree to which the audience's heart rate influenced the game.",
+    "code":"",
+  "questions": [
+    {
+      "questiontype": "slider",
+      "id": "Effect",
+      "left": "No noticeable influence",
+      "right": "Highly noticeable influence",
+      "width": 900,
+      "required": true
+    }
+  ]
+}
+

@@ -1,0 +1,200 @@
+{  
+    "title":"Demographics",
+    "instructions":"Please answer the following questions.",
+    "code":"",
+  "questions": [
+    {
+      "questiontype": "num_field",
+      "datatype": "integer",
+      "instructions": "What is your age?",
+      "id": "age",
+      "required": "true",
+      "placeholder": "18",
+      "min": "1",
+      "max": "120"
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "Indicate your gender:",
+      "id": "gender",
+      "dropheight": "104",
+      "required": "false",
+      "items": [
+        "woman",
+        "man",
+        "non-binary",
+        "I prefer not to disclose"
+      ]
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "What is the highest degree or level of school you have completed? If currently enrolled, mark the previous grade or highest degree received:",
+      "id": "education",
+      "dropheight": "338",
+      "dropwidth": "600",
+      "required": "true",
+      "items": [
+        "No schooling completed",
+        "Nursery school to 8th grade",
+        "9th, 10th or 11th grade",
+        "12th grade, no diploma",
+        "High school graduate - high school diploma or the equivalent (for example: GED)",
+        "Some college credit, but less than 1 year",
+        "1 or more years of college, no degree",
+        "Associate degree",
+        "Bachelor's degree",
+        "Master's degree",
+        "Professional degree",
+        "Doctorate degree",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you are a student, please indicate your subject:",
+      "required": "false",
+      "placeholder": "N/A",
+      "id": "subject"
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "Please indicate your employment status:",
+      "id": "employment",
+      "dropheight": "260",
+      "dropwidth": "600",
+      "required": "true",
+      "items": [
+        "Employed for wages",
+        "Self-employed",
+        "Out of work and looking for work",
+        "Out of work but not currently looking for work",
+        "A homemaker",
+        "A student",
+        "Military",
+        "Retired",
+        "Unable to work",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "Please indicate your marital status:",
+      "id": "marital",
+      "dropwidth": "600",
+      "dropheight": "156",
+      "required": "true",
+      "items": [
+        "Single, never married",
+        "Married or domestic partnership",
+        "Widowed",
+        "Divorced",
+        "Separated",
+        "I prefer not to answer"
+      ]
+    },
+
+    {
+      "questiontype": "drop_down",
+      "instructions": "Please indicate your ethnicity:",
+      "id": "ethnicity",
+      "dropheight": "208",
+      "dropwidth": "600",
+      "required": "true",
+      "items": [
+        "American Indian or Alaskan Native",
+        "Asian",
+        "Native Hawaiian or Other Pacific Islander",
+        "Black or African American",
+        "Hispanic/Latino",
+        "White",
+        "Two or more categories",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "How often do you watch live streams?",
+      "id": "freq_watch",
+      "required": "true",
+      "items": [
+        "0-3 hours per week",
+        "3-6 hours per week",
+        "6-9 hours per week",
+        "10+ hours per week",
+        "Never"
+      ]
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "How often do you watch this streamer's channel?",
+      "id": "freq_watch_streamer",
+      "required": "true",
+      "items": [
+        "0-3 hours per week",
+        "3-6 hours per week",
+        "6-9 hours per week",
+        "10+ hours per week",
+        "Never"
+      ]
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you have ever seen physiology (e.g., heart rate, eye tracking) integrated into *this* stream, please describe the experience. If never, type N/A.",
+      "id": "physiology",
+      "required": "true"
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you have ever seen physiology (e.g., heart rate, eye tracking) integrated into *any* stream, please describe the experience. If never, type N/A.",
+      "id": "physiology2",
+      "required": "true"
+    },
+    {
+      "questiontype": "field",
+      "instructions": "What forms of audience interactivity have you seen on Twitch in the past (e.g. games that use audience voting)? If none, type N/A.",
+      "id": "interactivity",
+      "required": "true"
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you have seen these interactive elements in the past, have you personally engaged with any?",
+      "id": "participation",
+      "required": "false"
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If you have engaged with any of these elements, please describe how they have impacted your viewing experiences.",
+      "id": "participation",
+      "required": "false"
+    },
+    {
+      "questiontype": "slider",
+      "instructions": "Please rate your experience watching/engaging with the audience participation feature in the game you just watched from Unenjoyable to Enjoyable.",
+      "id": "rating",
+      "required": "true",
+      "left": "Unenjoyable",
+      "right": "Enjoyable",
+      "tick_count": 50,
+      "width": 900
+
+    },
+    {
+      "questiontype": "drop_down",
+      "instructions": "What type of viewer are you (i.e. active participant, passive viewer/lurker, or other)?",
+      "id": "viewer_type",
+      "dropheight": "52",
+      "required": "true",
+      "items": [
+        "passive",
+        "active",
+        "other"
+      ]
+    },
+    {
+      "questiontype": "field",
+      "instructions": "If other, please describe.",
+      "id": "viewer_type"
+
+    }
+  ]
+}

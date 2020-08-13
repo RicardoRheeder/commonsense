@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}{{ config['TITLE'] }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('BOFS_static', filename='style.css') }}" type="text/css" />
+    <script type="text/javascript" src="{{ url_for('BOFS_static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_child.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('heartrate.static', filename='headtrackr.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('heartrate.static', filename='numeric-1.2.6.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('heartrate.static', filename='heartrate_util.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('heartrate.static', filename='heartrate.js') }}"></script>
+
+    <style>
+        .question {
+            height: 200px;
+        }
+
+        .padding {
+            height: 165px;
+            line-height: 165px;
+        }
+
+        .hr-loading,
+        .hr-ok {
+            background-repeat: no-repeat;
+            background-position: 0px 50%;
+            padding-left: 40px;
+            padding-top: 10px;
+
+            display: inline-block;
+            vertical-align: middle;
+            line-height: normal;
+        }
+
+        .hr-loading {
+            background-image: url('{{ url_for('BOFS_static', filename='img/spinner32.gif') }}');
+        }
+
+        .hr-ok {
+            background-image: url('{{ url_for('BOFS_static', filename='img/check.png') }}');
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-database.js"></script>
+    <script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_parent.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('heartrate.static', filename='firebaseConfig.js') }}"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function submitHR() {
+            $.post("{{ url_for('heartrate.route_heartrate_submit') }}", $("#hrForm").serialize());
+
+            $("#timestampUnix").val("");
+            $("#bpm").val("");
+            $("#fqQuality").val("");
+            $("#dataQuality").val("");
+
+            setTimeout(submitHR, 5000);
+        }
+
+        var f = firebase.initializeApp(firebaseConfig);
+
+        var currentlyBeingCounted = false;
+
+        var prevHR = 0;
+        var curHR = 0;
+
+        function addToUserCount() {
+            // firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
+            //     console.log("Here 1")
+            //     firebase.database().ref().update({ userCount: snapshot.val() + 1 });
+            // });
+
+
+            firebase.database().ref('users/' + localStorage.postKey).update({ 'status': 'active', 'heartrate': 0 })
+            firebase.database().ref('users/' + localStorage.postKey).onDisconnect().update({ 'status': 'inactive' })
+            // firebase.database().ref('users/' + localStorage.postKey).onDisconnect().remove()
+        }
+
+        function subtractFromUserCount() {
+            // firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
+            //     firebase.database().ref().update({ userCount: snapshot.val() - 1 });
+            //     prevHR = 0;
+            // });
+
+            firebase.database().ref('users/' + localStorage.postKey).update({ 'status': 'inactive' })
+        }
+
+        // TODO: Delete
+        // function subtractFromUserCountOnDisconnect() {
+        //     firebase.database().ref().onDisconnect(() => {
+        //         alert("DISCONNECTING")
+        //         if (currentlyBeingCounted == true) {
+
+        //             currentlyBeingCounted = false;
+        //             subtractFromTotalHR(curHR);
+        //             subtractFromUserCount();
+        //         }
+        //     });
+
+        //     prevHR = 0;
+        // }
+
+        function addToTotalHR() {
+            // firebase.database().ref('total').once('value', (snapshot) => { // Get a snapshot of values in the DB
+
+            //     // console.log("Prev: ", prevHR, "Current: ", curHR, "Total: ", snapshot.val());
+            //     let newTotal = parseFloat(((snapshot.val() - prevHR) + curHR).toFixed(3)); // Calculate new Total
+            //     firebase.database().ref().update({ total: newTotal }); // Update DB's "total" value
+            //     // console.log("New Total: ", newTotal)
+            // });
+
+            if (localStorage.postKey) {
+                firebase.database().ref('users/' + localStorage.postKey).update({ 'heartrate': curHR })
+            }
+            prevHR = curHR; // Set prev value
+        }
+
+        function subtractFromTotalHR() {
+            // firebase.database().ref('total').once('value', (snapshot) => { // Get a snapshot of values in the DB
+            //     let newTotal = parseFloat((snapshot.val() - valueToSubtract).toFixed(3)); // Calculate new Total
+            //     firebase.database().ref().update({ total: newTotal }); // Update DB's "total" value
+            // });
+
+            if (localStorage.postKey) {
+                firebase.database().ref('users/' + localStorage.postKey).update({ 'heartrate': 0 })
+            }
+        }
+
+        $(document).ready(function () {
+
+            // TODO: Delete
+
+            // firebase.database().ref().onDisconnect(() => {
+
+            //     if (currentlyBeingCounted == true) {
+            //         currentlyBeingCounted = false;
+
+            //         firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
+            //             firebase.database().ref().update({ userCount: snapshot.val() - 1 });
+            //             prevHR = 0;
+            //         });
+            //     }
+            // });
+            // firebase.database().ref('userCount').on('value', (snapshot) => { // Get a snapshot of values in the DB
+            //     firebase.database().ref().onDisconnect().update({ userCount: snapshot.val() - 1 });
+            // });
+
+            // When window is close, decrease the count of users by 1
+            // subtractFromUserCountOnDisconnect();
+
+            var started = false;
+
+            var hr = new HR();
+            hr.start();
+
+            $("#url").val(get_parent_page());
+
+            eventer(messageEvent, function (event) {
+                switch (event.data) {
+                    case "CheckChildLoaded":
+                        $("#url").val(get_parent_page());
+                        break;
+                }
+            }, false);
+
+            document.addEventListener("headtrackrStatus", function (event) {
+                switch (event.status) {
+                    case 'no camera':
+                        $('#heartrate_status').text('Searching for camera...');
+                        // IF SEARCHING FOR CAMERA
+                        if (currentlyBeingCounted == true) {
+                            currentlyBeingCounted = false;
+                            subtractFromUserCount();
+                            subtractFromTotalHR();
+                        }
+                        break;
+                    case 'camera found':
+                        $('#heartrate_status').text('Camera found! Trying to find your face.');
+                        break;
+                    case 'hint':
+                        $('#heartrate_status').text('The system is having trouble locating your face. Please try adjusting your lighting and web cam position.');
+                        // IF SEARCHING FOR CAMERA
+                        if (currentlyBeingCounted == true) {
+                            currentlyBeingCounted = false;
+                            subtractFromUserCount();
+                            subtractFromTotalHR();
+                        }
+                        break;
+                    case 'found':
+                        $('#heartrate_status').text('Face found! Trying to find your heart rate.');
+                        break;
+                    case 'redetecting':
+                        $('#heartrate_status').text('Redetecting face...');
+                        // IF SEARCHING FOR FACE
+                        if (currentlyBeingCounted == true) {
+                            currentlyBeingCounted = false;
+                            subtractFromUserCount();
+                            subtractFromTotalHR();
+                        }
+                        break;
+                    case 'lost':
+                        $('#heartrate_status').text('Face lost...');
+                        // IF FACE IS LOST
+                        if (currentlyBeingCounted == true) {
+                            currentlyBeingCounted = false;
+                            subtractFromUserCount();
+                            subtractFromTotalHR();
+                        }
+                        break;
+                }
+            }, true);
+
+            var lastHrTimestamp = 0;
+
+            document.addEventListener("HRdata", function (event) {
+
+                if (!started) {
+                    $('#heartrate_status').text('Heart rate found! Please minimize (but do not close) this window.');
+                    $('#heartrate_status').removeClass('hr-loading').addClass('hr-ok');
+
+                    window.opener.postMessage("HeartRateFound", "*");
+
+                    started = true;
+                    prevHR = 0;
+
+                    // TODO: Delete
+                    // if (currentlyBeingCounted == false) {
+                    //     currentlyBeingCounted = true;
+                    //     // When face is detected, then count the user
+                    //     firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
+                    //         console.log("Here 1")
+                    //         firebase.database().ref().update({ userCount: snapshot.val() + 1 });
+                    //     });
+                    // }
+
+                    setTimeout(submitHR, 5000);
+                }
+
+                if (event.HR.status != "found" || !event.HR.valid || event.HR.bpm == 0) {
+                    console.log(currentlyBeingCounted)
+                    console.log("Looking for face...")
+                    if (currentlyBeingCounted == true) {
+                        currentlyBeingCounted = false;
+
+                        // When face is not detected, then don't count the user
+                        subtractFromUserCount();
+                        subtractFromTotalHR();
+                        prevHR = 0;
+                        // curHR = 0; // maybe remove
+                    }
+                    return;
+                }
+
+                if (event.HR.bpm > 0) {
+                    if (currentlyBeingCounted == false) {
+                        currentlyBeingCounted = true;
+
+                        // When face is detected, then count the user
+                        addToUserCount();
+                    }
+                }
+
+                // Only update HR at most every XXXms.
+                if (lastHrTimestamp == 0 || event.HR.timestamp - lastHrTimestamp >= 500.0) {
+                    console.log(currentlyBeingCounted)
+
+                    var timestampUnix = $("#timestampUnix");
+                    var bpm = $("#bpm");
+                    var fqQuality = $("#fqQuality");
+                    var dataQuality = $("#dataQuality");
+
+                    timestampUnix.val(timestampUnix.val() + event.HR.timestamp + ",");
+                    bpm.val(bpm.val() + event.HR.bpm + ",");
+                    fqQuality.val(fqQuality.val() + event.HR.FqQuality + ",");
+                    dataQuality.val(dataQuality.val() + event.HR.DataQuality + ",");
+
+                    lastHrTimestamp = event.HR.timestamp;
+
+                    // Get current HR
+                    curHR = parseFloat((event.HR.bpm).toFixed(3));
+                    console.log("BPM: " + event.HR.bpm);
+
+                    // If current HR is greater than 20 bpm
+                    if (currentlyBeingCounted && curHR >= 10) {
+                        // When face is detected, then count the user
+                        addToTotalHR();
+                    }
+                }
+            });
+        });
+    </script>
+    <form id="hrForm" method="post" action="{{ url_for('heartrate.route_heartrate_submit') }}">
+        <input type="hidden" id="url" name="url">
+        <input type="hidden" id="status" name="status" value="found">
+        <input type="hidden" id="timestampUnix" name="timestampUnix" value="">
+        <input type="hidden" id="bpm" name="bpm" value="">
+        <input type="hidden" id="fqQuality" name="fqQuality" value="">
+        <input type="hidden" id="dataQuality" name="dataQuality" value="">
+    </form>
+
+    <div class="question" style="margin: 10px;">
+        <div class="padding">
+            <span id="heartrate_status" class="hr-loading">
+                Please allow access to your web cam.
+                If you are not prompted to share your web cam, please ensure it is plugged in and working.
+                <p>
+                    <a href="javascript:location.reload();">Click here</a> to refresh the page and try again.
+                </p>
+            </span>
+        </div>
+    </div>
+
+</body>
+
+</html>

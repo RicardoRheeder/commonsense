@@ -1,0 +1,85 @@
+{% extends "template.html" %}
+{% block head %}
+
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-database.js"></script>
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_parent.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='firebaseConfig.js') }}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var f = firebase.initializeApp(firebaseConfig);
+
+        sessionStorage.nextSessionDescription = "Survey1"
+
+        // Set up user in database
+        var newPostKey;
+
+        // Get a key for a new Post.
+        if (!newPostKey) {
+            newPostKey = firebase.database().ref().child('users').push().key;
+            localStorage.postKey = newPostKey;
+            firebase.database().ref('users/' + newPostKey).update({
+                'status': 'start',
+                'heartrate': 0,
+                'survey1Complete': false,
+                'survey2Complete': false,
+                'survey3Complete': false,
+                'hasSentEmail': false,
+            })
+        }
+
+        open_child_window("/hr_window", undefined, true);
+        wChild.focus();
+
+        $("#btnNext").attr("disabled", true);
+        $("#btnNext").click(function () {
+            $('#form').submit();
+        });
+
+        eventer(messageEvent, function (e) {
+            if (e.data == "HeartRateFound") {
+                $("#btnNext").attr("disabled", false);
+                $('#instructions').html("<b>Your heart rate was found! Click \"Continue\" to proceed.</b>");
+            }
+        }, false);
+
+        firebase.database().ref().once('value', (snapshot) => {
+            sessionStorage.channelName = snapshot.val().channelName
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<form id="form" method="post" action="{{ url_for('default.submit') }}">
+    <div>
+        <h3>*Testing:* Some Information</h3>
+        <ul>
+            <li>Your participant ID is {{ session['participantID'] }}.</li>
+            <li>You were assigned to condition {{ session['condition'] }}.</li>
+        </ul>
+    </div>
+    <div class="question" style="">
+        <div id="instructions" class="padding">
+            <b>Trying to locate your heart rate. </b>
+            <ul>
+                <li>Refer to the smaller window to see the current status.</li>
+                <li>You may need to allow popups and refresh this window.</li>
+                <li>After the heart rate has been found, the button below will be enabled.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="navigation padding">
+        <div style="float: right">
+            <input id="btnNext" type="button" value="Continue">
+        </div>
+        <div style="clear: both"></div>
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{  
+    "title":"IOS",
+  "instructions": "<img src=\"https://homepage.usask.ca/~rbr978/IOS2.png\" width=990px>",
+    "code":"",
+  "questions": [
+    {
+      "questiontype": "radiolist",
+      "instructions": "Please choose the number of the picture that best describes your relationship to the streamer.",
+      "id": "IOQ",
+      "width": 950,
+      "required": true,
+      "labels": [
+        "#1",
+        "#2",
+        "#3",
+        "#4",
+        "#5",
+        "#6",
+        "#7"
+      ]
+    }
+  ]
+}
+

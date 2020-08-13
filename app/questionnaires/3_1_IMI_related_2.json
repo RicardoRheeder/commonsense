@@ -1,0 +1,55 @@
+{
+   "title":"IMI_R",
+   "instructions":"Reflect on your interactions with the streamer and rate your agreement with the following statements.",
+   "code":"",
+   "questions":[
+      {
+         "questiontype":"radiogrid",
+         "id":"IMI_R",
+         "shuffle": "true",
+         "labels":[
+            "Strongly disagree",
+            "Disagree",
+            "Slightly disagree",
+            "Neutral",
+            "Slightly agree",
+            "Agree",
+            "Strongly agree"
+         ],
+         "q_text":[
+            {
+               "id":"q_1",
+               "text":"I don't feel like I could really trust the streamer."
+            },
+            {
+               "id":"q_2",
+               "text":"I'd like a chance to interact with the streamer more often."
+            },
+            {
+               "id":"q_3",
+               "text":"I felt like I could really trust the streamer."
+            },
+            {
+               "id":"q_4",
+               "text":"I feel close to the streamer."
+            },
+            {
+               "id":"q_5",
+               "text":"It is likely that the streamer and I could become friends if we interacted a lot."
+            },
+            {
+               "id":"q_6",
+               "text":"I'd really prefer not to interact with the streamer in the future."
+            },
+            {
+               "id":"q_7",
+               "text":"I felt really distant with the streamer."
+            },
+            {
+               "id":"q_8",
+               "text":"I really doubt that the streamer and I would ever be friends."
+            }
+         ]
+      }
+   ]
+}

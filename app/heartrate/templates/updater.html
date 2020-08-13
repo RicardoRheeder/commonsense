@@ -1,0 +1,42 @@
+{% extends "template.html" %}
+{% block head %}
+
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_parent.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='firebaseConfig.js') }}"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-database.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var f = firebase.initializeApp(firebaseConfig);
+
+        var surveyNumber = sessionStorage.surveyNum;
+        console.log(surveyNumber)
+
+        if (surveyNumber == 1) {
+            firebase.database().ref('users/' + localStorage.postKey).update({
+                'survey1Complete': true,
+            })
+            sessionStorage.nextSessionDescription = 'Survey2'
+
+        } else if (surveyNumber == 2) {
+            firebase.database().ref('users/' + localStorage.postKey).update({
+                'survey2Complete': true,
+            })
+            sessionStorage.nextSessionDescription = 'Survey3'
+
+        } else if (surveyNumber == 3) {
+            firebase.database().ref('users/' + localStorage.postKey).update({
+                'survey3Complete': true,
+            })
+            sessionStorage.nextSessionDescription = ''
+        }
+
+        setTimeout(() => window.location.replace('/redirect_next_page'), 500);
+
+        // setTimeout(() => window.location.replace('/redirect_from_page/updater' + sessionStorage.surveyNum), 500);
+
+
+    });
+</script>
+
+{% endblock %}

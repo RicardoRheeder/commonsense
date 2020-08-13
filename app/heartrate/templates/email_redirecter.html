@@ -1,0 +1,34 @@
+{% extends "template.html" %}
+{% block head %}
+
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_parent.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='firebaseConfig.js') }}"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.4/firebase-database.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var f = firebase.initializeApp(firebaseConfig);
+
+        firebase.database().ref('users/' + localStorage.postKey).once('value', (snapshot) => {
+            var SSVal = snapshot.val()
+
+            if (SSVal.hasSentEmail == false && SSVal.survey1Complete == true && SSVal.survey2Complete == true && SSVal.survey3Complete == true) {
+                firebase.database().ref('users/' + localStorage.postKey).update({
+                    'hasSentEmail': true,
+                })
+                window.location.replace('/redirect_next_page');
+            } else {
+                window.location.replace('/redirect_from_page/questionnaire/email');
+
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+
+
+
+{% block content %}
+{% endblock %}

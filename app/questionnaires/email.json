@@ -1,0 +1,26 @@
+{
+    "title": "Email entry",
+    "code": "",
+    "questions": [
+        {
+            "questiontype": "textview",
+            "title": "Thank you for completing all questionaires!",
+            "text": "This email submission is to be entered in a random draw to win $$$$"
+        },
+        {
+            "questiontype": "field",
+            "instructions": "Please enter your email:",
+            "datatype": "text",
+            "placeholder": "e.g. johndoe@gmail.com",
+            "id": "input_1"
+        },
+        {
+            "questiontype": "multi_field",
+            "id": "big",
+            "datatype": "text",
+            "placeholder": "",
+            "instructions": "Any additional comments you have about the experiment",
+            "height": "100"
+        }
+    ]
+}
