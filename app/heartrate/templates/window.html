@@ -67,6 +67,8 @@
         var prevHR = 0;
         var curHR = 0;
 
+        var lostFaceInstructions = "Please try the following: \n- ensure that the webcam is directly inline with your face \n- adjust your lighting \n- ensure your forehead is not covered"
+
         function addToUserCount() {
             // firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
             //     console.log("Here 1")
@@ -178,10 +180,10 @@
                         }
                         break;
                     case 'camera found':
-                        $('#heartrate_status').text('Camera found! Trying to find your face.');
+                        $('#heartrate_status').text('Camera found! Trying to find your face.\n' + lostFaceInstructions);
                         break;
                     case 'hint':
-                        $('#heartrate_status').text('The system is having trouble locating your face. Please try adjusting your lighting and web cam position.');
+                        $('#heartrate_status').text('The system is having trouble locating your face.\n' + lostFaceInstructions);
                         // IF SEARCHING FOR CAMERA
                         if (currentlyBeingCounted == true) {
                             currentlyBeingCounted = false;
@@ -190,10 +192,10 @@
                         }
                         break;
                     case 'found':
-                        $('#heartrate_status').text('Face found! Trying to find your heart rate.');
+                        $('#heartrate_status').text('Face found! Trying to find your heart rate.\n' + lostFaceInstructions);
                         break;
                     case 'redetecting':
-                        $('#heartrate_status').text('Redetecting face...');
+                        $('#heartrate_status').text('Redetecting face...\n' + lostFaceInstructions);
                         // IF SEARCHING FOR FACE
                         if (currentlyBeingCounted == true) {
                             currentlyBeingCounted = false;
@@ -202,7 +204,7 @@
                         }
                         break;
                     case 'lost':
-                        $('#heartrate_status').text('Face lost...');
+                        $('#heartrate_status').text('Face lost...\n' + lostFaceInstructions);
                         // IF FACE IS LOST
                         if (currentlyBeingCounted == true) {
                             currentlyBeingCounted = false;
