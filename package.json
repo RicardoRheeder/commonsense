@@ -1,0 +1,22 @@
+{
+  "name": "commonsense",
+  "version": "1.0.0",
+  "description": "",
+  "main": "backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RicardoRheeder/commonsense.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RicardoRheeder/commonsense/issues"
+  },
+  "homepage": "https://github.com/RicardoRheeder/commonsense#readme",
+  "dependencies": {
+    "firebase": "^7.18.0"
+  }
+}
