@@ -20,6 +20,7 @@
             height: 165px;
             line-height: 165px;
         }
+
         .hr-loading,
         .hr-ok {
             background-repeat: no-repeat;
@@ -63,95 +64,45 @@
 
         var currentlyBeingCounted = false;
 
+        var shouldPushToDB = 0; //0 for false, 1 for true
+
         var prevHR = 0;
         var curHR = 0;
 
         var lostFaceInstructions = " Please ensure that the webcam is directly inline with your face, that your forehead is not covered, and that there is enough light for the webcam to identify your face"
 
+        firebase.database().ref('active_db').on('value', (snapshot) => {
+            shouldPushToDB = snapshot.val();
+            if (shouldPushToDB == 0) {
+                window.open("", "_self");
+                window.close();
+            }
+        })
+
         function addToUserCount() {
-            // firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
-            //     console.log("Here 1")
-            //     firebase.database().ref().update({ userCount: snapshot.val() + 1 });
-            // });
-
-
             firebase.database().ref('users/' + localStorage.postKey).update({ 'status': 'active', 'heartrate': 0 })
             firebase.database().ref('users/' + localStorage.postKey).onDisconnect().update({ 'status': 'inactive' })
-            // firebase.database().ref('users/' + localStorage.postKey).onDisconnect().remove()
         }
 
         function subtractFromUserCount() {
-            // firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
-            //     firebase.database().ref().update({ userCount: snapshot.val() - 1 });
-            //     prevHR = 0;
-            // });
-
             firebase.database().ref('users/' + localStorage.postKey).update({ 'status': 'inactive' })
         }
 
-        // TODO: Delete
-        // function subtractFromUserCountOnDisconnect() {
-        //     firebase.database().ref().onDisconnect(() => {
-        //         alert("DISCONNECTING")
-        //         if (currentlyBeingCounted == true) {
-
-        //             currentlyBeingCounted = false;
-        //             subtractFromTotalHR(curHR);
-        //             subtractFromUserCount();
-        //         }
-        //     });
-
-        //     prevHR = 0;
-        // }
-
         function addToTotalHR() {
-            // firebase.database().ref('total').once('value', (snapshot) => { // Get a snapshot of values in the DB
 
-            //     // console.log("Prev: ", prevHR, "Current: ", curHR, "Total: ", snapshot.val());
-            //     let newTotal = parseFloat(((snapshot.val() - prevHR) + curHR).toFixed(3)); // Calculate new Total
-            //     firebase.database().ref().update({ total: newTotal }); // Update DB's "total" value
-            //     // console.log("New Total: ", newTotal)
-            // });
-
-            if (localStorage.postKey) {
+            if (localStorage.postKey && shouldPushToDB == 1) {
                 firebase.database().ref('users/' + localStorage.postKey).update({ 'heartrate': curHR })
             }
             prevHR = curHR; // Set prev value
         }
 
         function subtractFromTotalHR() {
-            // firebase.database().ref('total').once('value', (snapshot) => { // Get a snapshot of values in the DB
-            //     let newTotal = parseFloat((snapshot.val() - valueToSubtract).toFixed(3)); // Calculate new Total
-            //     firebase.database().ref().update({ total: newTotal }); // Update DB's "total" value
-            // });
-
-            if (localStorage.postKey) {
+            if (localStorage.postKey && shouldPushToDB == 1) {
                 firebase.database().ref('users/' + localStorage.postKey).update({ 'heartrate': 0 })
             }
         }
 
         $(document).ready(function () {
-
-            // TODO: Delete
-
-            // firebase.database().ref().onDisconnect(() => {
-
-            //     if (currentlyBeingCounted == true) {
-            //         currentlyBeingCounted = false;
-
-            //         firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
-            //             firebase.database().ref().update({ userCount: snapshot.val() - 1 });
-            //             prevHR = 0;
-            //         });
-            //     }
-            // });
-            // firebase.database().ref('userCount').on('value', (snapshot) => { // Get a snapshot of values in the DB
-            //     firebase.database().ref().onDisconnect().update({ userCount: snapshot.val() - 1 });
-            // });
-
-            // When window is close, decrease the count of users by 1
-            // subtractFromUserCountOnDisconnect();
-
             var started = false;
 
             var hr = new HR();
@@ -226,16 +177,6 @@
 
                     started = true;
                     prevHR = 0;
-
-                    // TODO: Delete
-                    // if (currentlyBeingCounted == false) {
-                    //     currentlyBeingCounted = true;
-                    //     // When face is detected, then count the user
-                    //     firebase.database().ref('userCount').once('value', (snapshot) => { // Get a snapshot of values in the DB
-                    //         console.log("Here 1")
-                    //         firebase.database().ref().update({ userCount: snapshot.val() + 1 });
-                    //     });
-                    // }
 
                     setTimeout(submitHR, 5000);
                 }
