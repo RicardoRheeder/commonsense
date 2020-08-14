@@ -64,16 +64,16 @@
 
         var currentlyBeingCounted = false;
 
-        var shouldPushToDB = 0; //0 for false, 1 for true
-
         var prevHR = 0;
         var curHR = 0;
 
         var lostFaceInstructions = " Please ensure that the webcam is directly inline with your face, that your forehead is not covered, and that there is enough light for the webcam to identify your face"
 
+        var shouldPushToDB = 0; //0 for false, 1 for true
         firebase.database().ref('active_db').on('value', (snapshot) => {
             shouldPushToDB = snapshot.val();
             if (shouldPushToDB == 0) {
+                // 'opens' current window to be able to close it again
                 window.open("", "_self");
                 window.close();
             }
