@@ -96,4 +96,4 @@ https://hci-mturk3.usask.ca:443
 
 If lab servers retarted, stop the apache process on port 443: sudo service apache2 stop
 
-            parent: ["www.hci-mturk3.usask.ca", "hci-mturk3.usask.ca"]
+parent: ["www.hci-mturk3.usask.ca", "hci-mturk3.usask.ca"]
