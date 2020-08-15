@@ -4,17 +4,17 @@
 <script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_parent.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('heartrate.static', filename='firebaseConfig.js') }}"></script>
 
-{% endblock %}
 <script type="text/javascript">
     $(document).ready(function () {
         setInterval(function () { window.location.replace('https://www.twitch.tv/' + sessionStorage.channelName); }, 120000); // redirects back to twitch stream in 120 seconds
 
-        $("#btnNext").click(function () {
+        $("#btnNext").click(() => {
             window.location.replace('https://www.twitch.tv/' + sessionStorage.channelName);
         });
-
+	console.log("Here");
     });
 </script>
+{% endblock %}
 
 {% block content %}
 <!DOCTYPE html>
