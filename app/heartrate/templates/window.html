@@ -67,6 +67,8 @@
         var prevHR = 0;
         var curHR = 0;
 
+        var status = "active";
+
         var lostFaceInstructions = " Please ensure that the webcam is directly inline with your face, that your forehead is not covered, and that there is enough light for the webcam to identify your face"
 
         var shouldPushToDB = 0; //0 for false, 1 for true
@@ -81,16 +83,18 @@
 
         function addToUserCount() {
             firebase.database().ref('users/' + localStorage.postKey).update({ 'status': 'active', 'heartrate': 0 })
+            status = "active";
             firebase.database().ref('users/' + localStorage.postKey).onDisconnect().update({ 'status': 'inactive' })
         }
 
         function subtractFromUserCount() {
             firebase.database().ref('users/' + localStorage.postKey).update({ 'status': 'inactive' })
+            status = "inactive";
         }
 
         function addToTotalHR() {
 
-            if (localStorage.postKey && shouldPushToDB == 1) {
+            if (localStorage.postKey && status == "active" && shouldPushToDB == 1) {
                 firebase.database().ref('users/' + localStorage.postKey).update({ 'heartrate': curHR })
             }
             prevHR = curHR; // Set prev value

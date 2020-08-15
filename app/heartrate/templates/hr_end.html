@@ -3,23 +3,18 @@
 
 <script type="text/javascript" src="{{ url_for('heartrate.static', filename='window_parent.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('heartrate.static', filename='firebaseConfig.js') }}"></script>
+
+{% endblock %}
 <script type="text/javascript">
     $(document).ready(function () {
-        var f = firebase.initializeApp(firebaseConfig);
+        setInterval(function () { window.location.replace('https://www.twitch.tv/' + sessionStorage.channelName); }, 120000); // redirects back to twitch stream in 120 seconds
 
-        var shouldPushToDB = 0; //0 for false, 1 for true
-        firebase.database().ref('active_db').on('value', (snapshot) => {
-            shouldPushToDB = snapshot.val();
-            if (shouldPushToDB == 0) {
-                // 'opens' current window to be able to close it again
-                window.open("", "_self");
-                window.close();
-            }
-        })
+        $("#btnNext").click(function () {
+            window.location.replace('https://www.twitch.tv/' + sessionStorage.channelName);
+        });
+
     });
 </script>
-{% endblock %}
-
 
 {% block content %}
 <!DOCTYPE html>
@@ -31,40 +26,36 @@
     <br>
     <b>Please remember to close the small pop-up window when you are done with the experiment</b>
     <br>
-    <div style="
+    <p>You may click "Proceed back to Twitch.tv" to navigate back to the Twitch stream.</p>
+    <p>You will automatically be navigated back to the Twitch stream in 2 minutes.</p>
+    <br>
+    <form id="form" method="post" action="{{ url_for('default.submit') }}" style="
         position: absolute;
-        height: calc(100% - 200px);
-        width: 90%;
-        right: 5%;
+        width: 100%;
+        bottom: 0;
     ">
-        <div id="twitch-embed" style="
-            position: absolute;
-            height: calc(100% - 180px);
-            width: 100%;
-        ">
 
+        <div class="question" style="">
+            <div id="instructions" class="padding">
+                <b> Once instructed to start the survey, then the button will be enabled. </b>
+            </div>
         </div>
+
+        <div class="navigation padding">
+            <div style="float: right">
+                <input id="btnNext" type="button" value="Proceed back to Twitch.tv">
+            </div>
+            <div style="clear: both"></div>
+        </div>
+
+    </form>
     </div>
 
     <!-- Load the Twitch embed script -->
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 
     <script type="text/javascript">
-        var options = {
-            width: '100%',
-            height: '100%',
-            channel: sessionStorage.channelName,
-            layout: "video-with-chat",
-            autoplay: true,
-            parent: ["www.hci-mturk3.usask.ca", "hci-mturk3.usask.ca"]
-        };
-        var embed = new Twitch.Embed("twitch-embed", options);
-
-        embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
-            var player = embed.getPlayer();
-            player.play();
-            player.setVolume(0.1);
-        });
+        window.location.replace("http://www.w3schools.com");
     </script>
 </body>
 

@@ -9,16 +9,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var f = firebase.initializeApp(firebaseConfig);
-        
-        var shouldPushToDB = 0; //0 for false, 1 for true
-        firebase.database().ref('active_db').on('value', (snapshot) => {
-            shouldPushToDB = snapshot.val();
-            if (shouldPushToDB == 0) {
-                // 'opens' current window to be able to close it again
-                window.open("", "_self");
-                window.close();
-            }
-        })
 
         sessionStorage.nextSessionDescription = "Survey1"
 
