@@ -21,35 +21,31 @@
 <html lang="en-us">
 
 <body>
-    <b>Thanks for participating!</b>
-    <p>You are free to close the browser at your earliest convenience.</p>
-    <br>
-    <b>Please remember to close the small pop-up window when you are done with the experiment</b>
-    <br>
-    <p>You may click "Proceed back to Twitch.tv" to navigate back to the Twitch stream.</p>
-    <p>You will automatically be navigated back to the Twitch stream in 2 minutes.</p>
-    <br>
-    <form id="form" method="post" action="{{ url_for('default.submit') }}" style="
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-    ">
-
+    <form id="form" method="post" action="{{ url_for('default.submit') }}">
+        <div>
+            <b>Thanks for participating!</b>
+            <p>You are free to close the browser at your earliest convenience.</p>
+            <br>
+            <b>Please remember to close the small pop-up window when you are done with the experiment</b>
+            <br>
+            <p>You may click "Proceed back to Twitch.tv" to navigate back to the Twitch stream.</p>
+            <p>You will automatically be navigated back to the Twitch stream in 2 minutes.</p>
+            <br>
+        </div>
         <div class="question" style="">
             <div id="instructions" class="padding">
-                <b> Once instructed to start the survey, then the button will be enabled. </b>
+                <b> </b>
             </div>
         </div>
-
+    
         <div class="navigation padding">
             <div style="float: right">
-                <input id="btnNext" type="button" value="Proceed back to Twitch.tv">
+                <input id="btnNext" type="button" value="Proceed back to Twitch.tv"></input>
             </div>
             <div style="clear: both"></div>
         </div>
-
+    
     </form>
-    </div>
 </body>
 
 </html>
