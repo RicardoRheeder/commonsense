@@ -110,3 +110,8 @@ def route_heartrate_submit():
     db.session.commit()
 
     return ""
+
+@heartrate.route("/requirements")
+@verify_session_valid
+def route_requirements():
+    return render_template("requirements2.html")

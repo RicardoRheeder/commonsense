@@ -1,0 +1,224 @@
+{% extends "template.html" %}
+
+{% block head %}
+<meta charset="utf-8">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="shortcut icon" href="{{url_for('heartrate.static', filename='/img/kurento.png')}}" type="image/png" />
+<script type="text/javascript" src="{{ url_for('BOFS_static', filename='js/jquery-3.4.1.min.js') }}"></script>
+
+
+<script type="text/javascript"
+	src="{{ url_for('heartrate.static', filename='/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript"
+	src="{{ url_for('heartrate.static', filename='/bower_components/ekko-lightbox/dist/ekko-lightbox.min.js') }}"></script>
+<script type="text/javascript"
+	src="{{ url_for('heartrate.static', filename='/bower_components/adapter.js/adapter.js') }}"></script>
+<script type="text/javascript"
+	src="{{ url_for('heartrate.static', filename='/bower_components/kurento-utils/js/kurento-utils.js') }}"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="{{ url_for('heartrate.static', filename='/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+</link>
+<link rel="stylesheet" type="text/css"
+	href="{{ url_for('heartrate.static', filename='/bower_components/ekko-lightbox/dist/ekko-lightbox.min.css') }}">
+</link>
+<link rel="stylesheet" type="text/css" href="{{ url_for('heartrate.static', filename='/css/kurento.css') }}">
+</link>
+
+{% endblock %}
+
+
+
+{% block content %}
+<script type="text/javascript" src="{{ url_for('heartrate.static', filename='/js/requirements2.js') }}"></script>
+<script type="text/javascript">
+
+
+	var imgsrcs = [
+		"{{url_for('heartrate.static', filename='/img/webcam.png')}}",
+		"{{url_for('heartrate.static', filename='/img/lighting.jpg')}}",
+		"{{url_for('heartrate.static', filename='/img/lightfacing.jpg')}}",
+		"{{url_for('heartrate.static', filename='/img/facing.jpg')}}",
+		"{{url_for('heartrate.static', filename='/img/still.jpg')}}",
+		"{{url_for('heartrate.static', filename='/img/hat.png')}}",
+		"{{url_for('heartrate.static', filename='/img/bangs.png')}}"
+	]
+	console.log('-----------------')
+	console.log(imgsrcs)
+	console.log('-----------------')
+
+	for (let i = 0; i < imgsrcs.length; i++) {
+		pushToSrc(imgsrcs[i])
+	}
+
+	var hasPressed = false;
+	function buttonPress() {
+		if (!hasPressed) {
+			call_requirements();
+			$("#buttonText").html("<b>Next</b>");
+			hasPressed = true;
+		} else {
+			nextButtonPress();
+		}
+		return false;
+	}
+	$(document).ready(function () {
+
+		$("#btnNext").attr("disabled", true);
+		$("#btnNext").click(function () {
+			$('#form').submit();
+		});
+	});
+</script>
+
+<title>Requirements Check</title>
+
+<div class="container">
+	<div class="page-header">
+		<h1>Requirements Check Results</h1>
+	</div>
+</div>
+
+<div>
+	<div class="container" id="posDiv">
+		<div class="col-md-6">
+			<h2>Instructions</h2>
+
+			<div id="shortInstructions">
+				Please read these instructions carefully. Failure to follow these instructions will result in
+				rejection of the HIT. Proper lighting and visibility of your face (especially forehead) are ciritcal
+				for us to gather information on your heart rate.
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<img id="shortInstructionImage" src="" width=400 />
+					</div>
+					<div id="shortInstructionText" class="panel-footer">
+
+					</div>
+				</div>
+				<a href="#" id="shortNextButton" class="btn btn-default" onclick="buttonPress();">
+					<div id="buttonText">Start Configuration</div>
+				</a>
+				<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			</div>
+
+			<div id="longInstructions" style="display: none;">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- <img  src="../static/img/webcam.png" width=400 /> -->
+						<img src="{{url_for('heartrate.static', filename='/img/webcam.png')}}" width=400 />
+					</div>
+					<div class="panel-footer">
+						A high-resolution web camera is required. You can use a laptop with built-in camera, or
+						mount a camera at the top-center of your screen.
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- <img src="../static/img/lighting.jpg" width=400 /> -->
+						<img src="{{url_for('heartrate.static', filename='/img/lighting.jpg')}}" width=400 />
+					</div>
+					<div class="panel-footer">
+						Sit in a quiet, well-lit area.
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- <img src="../static/img/lightfacing.jpg" width=400 /> -->
+						<img src="{{url_for('heartrate.static', filename='/img/lightfacing.jpg')}}" width=400 />
+					</div>
+					<div class="panel-footer">
+						Make sure your face is lit from the front or side.
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- <img src="../static/img/facing.jpg" width=400 /> -->
+						<img src="{{url_for('heartrate.static', filename='/img/facing.jpg')}}" width=400 />
+					</div>
+					<div class="panel-footer">
+						Face forward to the screen. Do not turn your head during the experiment.
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- <img src="../static/img/still.jpg" width=400 /> -->
+						<img src="{{url_for('heartrate.static', filename='/img/still.jpg')}}" width=400 />
+					</div>
+					<div class="panel-footer">
+						Keep your head as still as possible. Don't change the distance between yourself and the
+						screen. Try to avoid talking during the HIT.
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<!-- <img src="../static/img/bangs.png" width=400 /> -->
+						<img src="{{url_for('heartrate.static', filename='/img/bangs.png')}}" width=400 />
+						<!-- <img src="../static/img/hat.png" width=400 /> -->
+						<img src="{{url_for('heartrate.static', filename='/img/hat.png')}}" width=400 />
+					</div>
+					<div class="panel-footer">
+						Please keep your forehead visible. Remove any hats, and pull your bangs back if they cover
+						your face.
+					</div>
+				</div>
+
+				<!-- <a href="#" id="continueButton" class="btn btn-default" onclick="continueButtonPress();
+						return false;"></span>Continue</a> -->
+
+
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div id="standardDiv">
+				<div id="movyDiv">
+					<h2>Preview</h2>
+					<div class="panel panel-default">
+						<div class="panel-heading">Current lighting:</div>
+						<div class="progress">
+							<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50"
+								aria-valuemin="0" aria-valuemax="256" style="width: 50%"></div>
+						</div>
+						<div id="brightnessFeedback">
+							Please allow camera access. If you denied access, clear your browsing data, refresh the
+							page, and try again.
+						</div>
+					</div>
+					<div id="relativeDiv">
+						<video id="underlayVideo" width="540px" height="405px"></video>
+						<!-- <img id="overlayImage" src="../static/img/face.png" /> -->
+						<img id="overlayImage" src="{{url_for('heartrate.static', filename='/img/face.png')}}"
+							width=400 />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<form id="form" method="post" action="{{ url_for('default.submit') }}" style="position: sticky;">
+	<div class="question" style="">
+		<div id="instructions" class="padding">
+			<b>You will be able to press 'Continue' once going through all instructions. </b>
+		</div>
+	</div>
+
+	<div class="navigation padding">
+		<div style="float: right">
+			<input id="btnNext" type="button" value="Continue">
+		</div>
+		<div style="clear: both"></div>
+	</div>
+</form>
+{% endblock %}
