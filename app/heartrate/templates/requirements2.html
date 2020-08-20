@@ -7,24 +7,26 @@
 <meta http-equiv="expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link rel="shortcut icon" href="{{url_for('heartrate.static', filename='img/kurento.png')}}" type="image/png" />
-<script type="text/javascript" src="{{ url_for('BOFS_static', filename='js/jquery-3.4.1.min.js') }}"></script>
-
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-<script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<!-- import issues with kurento -->
 <script type="text/javascript"
 	src="{{ url_for('heartrate.static', filename='bower_components/kurento-utils/js/kurento-utils.js') }}"></script>
-
-
-<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</link>
-<link rel="stylesheet" type="text/css"
-	href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
-</link>
+<link rel="shortcut icon" href="{{url_for('heartrate.static', filename='img/kurento.png')}}" type="image/png" />
 <link rel="stylesheet" type="text/css" href="{{ url_for('heartrate.static', filename='css/kurento.css') }}">
-</link>
+
+<!-- Jquery in static folder -->
+<script type="text/javascript" src="{{ url_for('BOFS_static', filename='js/jquery-3.4.1.min.js') }}"></script>
+
+<!-- Adapter.js from URL -->
+<script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+<!-- Bootstrap from URL -->
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Ekko from URL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+
 
 {% endblock %}
 
