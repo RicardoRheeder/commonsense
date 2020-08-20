@@ -44,7 +44,7 @@ var srcs = [];
 
 function pushToSrc(newSrc) {
 	srcs.push(newSrc);
-	console.log(srcs)
+	// console.log(srcs)
 }
 
 // window.onload = function ()
@@ -87,14 +87,14 @@ function call_requirements() {
 		$("#shortInstructions").attr('style', 'display:inline');
 		$("#longInstructions").attr('style', 'display:none');
 		setCurrentInstruction();
-		console.log("hide")
+		// console.log("hide")
 	}
 	else {
 		// $("#shortInstructions").css("display", "none");
 		// $("#longInstructions").css("display", "inline");
 		$("#shortInstructions").attr('style', 'display:none');
 		$("#longInstructions").attr('style', 'display:inline');
-		console.log("show")
+		// console.log("show")
 
 	}
 }
@@ -112,9 +112,9 @@ function nextButtonPress() {
 function setCurrentInstruction() {
 	currIndex += 1;
 
-	console.log(currIndex)
-	console.log(srcs[currIndex])
-	console.log(texts[currIndex])
+	// console.log(currIndex)
+	// console.log(srcs[currIndex])
+	// console.log(texts[currIndex])
 
 	if (currIndex >= 0) {
 		setImageAndText();
