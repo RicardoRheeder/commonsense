@@ -20,16 +20,16 @@
 <script type="text/javascript" src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 <!-- Bootstrap from URL -->
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
 <!-- Ekko from URL -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
 
-
 {% endblock %}
-
 
 
 {% block content %}
@@ -178,30 +178,29 @@
 			</div>
 		</div>
 		<div class="col-md-6"">
-			<div id="standardDiv">
-				<div id="movyDiv">
-					<h2>Preview</h2>
-					<div class="panel panel-default">
-						<div class="panel-heading">Current lighting:</div>
-						<div class="progress">
-							<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50"
-								aria-valuemin="0" aria-valuemax="256" style="width: 50%"></div>
-						</div>
-						<div id="brightnessFeedback">
-							Please allow camera access. If you denied access, clear your browsing data, refresh the
-							page, and try again.
-						</div>
+			<div id=" standardDiv">
+			<div id="movyDiv">
+				<h2>Preview</h2>
+				<div class="panel panel-default">
+					<div class="panel-heading">Current lighting:</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50"
+							aria-valuemin="0" aria-valuemax="256" style="width: 50%"></div>
 					</div>
-					<div id="relativeDiv">
-						<video id="underlayVideo" width="540px" height="405px"></video>
-						<!-- <img id="overlayImage" src="../static/img/face.png" /> -->
-						<img id="overlayImage" src="{{url_for('heartrate.static', filename='/img/face.png')}}"
-							width=400 />
+					<div id="brightnessFeedback">
+						Please allow camera access. If you denied access, clear your browsing data, refresh the
+						page, and try again.
 					</div>
+				</div>
+				<div id="relativeDiv">
+					<video id="underlayVideo" width="540px" height="405px"></video>
+					<!-- <img id="overlayImage" src="../static/img/face.png" /> -->
+					<img id="overlayImage" src="{{url_for('heartrate.static', filename='/img/face.png')}}" width=400 />
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
 </div>
 
