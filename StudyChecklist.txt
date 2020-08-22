@@ -1,0 +1,31 @@
+Checklist before study:
+
+----------
+BOF
+----------
+- Run cisco connect
+- Console > ssh rir954@hci-mturk3.usask.ca
+- Console > sudo su
+- Console > pm2 ls
+- Console > pm2 start commonsense
+- Console > pm2 start server
+
+----------
+Firebase
+----------
+- Update chanel name
+- Ensure environmentFirst is either true or false
+
+----------
+Chatty
+----------
+- Connect to twitch stream
+> Chat log can be found: C:\Users\ricar\.chatty\logs
+> Main -> Settings -> Log to file
+
+----------
+OBS
+----------
+- Record twitch.tv stream
+- Record discord post-interview
+
