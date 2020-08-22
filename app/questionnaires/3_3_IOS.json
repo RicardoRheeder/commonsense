@@ -5,7 +5,7 @@
   "questions": [
     {
       "questiontype": "radiolist",
-      "instructions": "Please choose the number of the picture that best describes your relationship to the streamer.",
+      "instructions": "Please choose the number of the picture that best describes your relationship to the streamer.\n'Self' in this case refers to you as a viewer.\n'Other' in this case refers to the streamer.",
       "id": "IOQ",
       "width": 950,
       "required": true,
