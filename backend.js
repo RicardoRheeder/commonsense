@@ -24,6 +24,10 @@ var average = 0;
 
 var UpdateWasMade = false;
 
+var prevTestUserCount = 0;
+var testUserCount = 0;
+var testCurTotal = 0;
+
 setInterval(() => {
     firebase.database().ref().once('value', (snapshot) => { // Get a snapshot of values in the DB
         // console.log(snapshot.val())
@@ -35,10 +39,19 @@ setInterval(() => {
 
         // Count the users
         if (users) {
-            userCount = Object.keys(users).filter((e) => users[e].status === 'active').length;
+            userCount = Object.keys(users).filter((e) => users[e].status === 'active' && users[e].heartrate > 0).length; // userCount = to count of active users
+            // If HR > 0 then add it to the total
             Object.keys(users).filter((e) => { (users[e].status === 'active' && users[e].heartrate > 0) ? curTotal += users[e].heartrate : null })
+
+
+            // TESTING
+            testUserCount = Object.keys(users).filter((e) => users[e].status === 'test' && users[e].heartrate != 0).length;
+            Object.keys(users).filter((e) => { (users[e].status === 'test' && users[e].heartrate != 0) ? curTotal += users[e].heartrate : null })
+            // TESTING
+
         } else {
             userCount = 0
+            testUserCount = 0;
         }
 
         // Update the userCount on database only if it has changed
@@ -50,11 +63,22 @@ setInterval(() => {
             console.log("UPDATE COUNT")
         }
 
+        // TESTING
+        if (prevTestUserCount != testUserCount) {
+            firebase.database().ref().update({ testUserCount });
+            prevTestUserCount = testUserCount;
+
+            UpdateWasMade = true;
+            console.log("UPDATE TEST COUNT")
+        }
+        // TESTING
+
+
         if (prevTotal != curTotal) {
             if (userCount < 1 || curTotal == 0) {
                 firebase.database().ref().update({ avg: 0 });
             } else {
-                average = parseFloat((curTotal / userCount).toFixed(3));
+                average = parseFloat((curTotal / (userCount + testUserCount)).toFixed(3));
 
                 firebase.database().ref().update({ avg: average });
             }
