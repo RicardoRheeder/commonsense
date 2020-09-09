@@ -49,6 +49,7 @@
 
 <body>
     <script type="text/javascript">
+    
         function submitHR() {
             $.post("{{ url_for('heartrate.route_heartrate_submit') }}", $("#hrForm").serialize());
 

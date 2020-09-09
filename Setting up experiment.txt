@@ -13,6 +13,10 @@ ssh rir954@hci-mturk3.usask.ca
 // *From local PC* copy files to mturk3
 scp -r ..\commonsense-bof/ rir954@hci-mturk3.usask.ca:/home/rir954/commonsense-bof_30072020
 
+
+//--------- USE nohup OR USE pm2 FOR RUNNING BACKGROUND PROCESSES ---------//
+
+//--------- nohup ---------//
 // & - makes the process run in background
 // nohup - allows all output to go to .txt
 nohup python3 run_heartrate.py &
@@ -21,15 +25,22 @@ nohup python3 run_heartrate.py &
 ps -x
 kill <PID>
 
-
-// OR use pm2: https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/
+//--------- pm2 ---------//
+// pm2: https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/
+// Create new process:
+// pm2 start <command> --name <name of process>
 pm2 start 'python3 run_heartrate.py' --name commonsense
-pm2 delete commonsense
-pm2 stop commonsense
 
-pm2 restart commonsense
-pm2 reload commonsense
+// Start existing *commonsense* and *server* processes
+pm2 start commonsense
+pm2 start server
 
+pm2 delete <name of process>
+pm2 stop <name of process>
+pm2 restart <name of process>
+pm2 reload <name of process>
+
+// Check active background processes
 pm2 ls
 
 -----------------------------------------------------------------------------------------------
@@ -39,7 +50,6 @@ app.run('0.0.0.0', port=8***)
 
 // Website for participants to connect to
 hci-mturk3.usask.ca:8***
-
 
 // To check permissions
 ls -l
@@ -61,9 +71,9 @@ sudo chown -R :rir954 /home/rir954
 sudo su
 
 // Add new user to server
-useradd vkb698
-passwd vkb698
-usermod -a -G sudo vkb698
+useradd <nsid>
+passwd <nsid>
+usermod -a -G sudo <nsid>
 
 -----------------------------------------------------------------------------------------------
 Quick references
@@ -71,29 +81,23 @@ Quick references
 
 BOF: https://github.com/colbyj/bride-of-frankensystem
 HR BP: https://git.cs.usask.ca/cgj130/bride-of-frankensystem
-
 Wiki: https://github.com/colbyj/bride-of-frankensystem/wiki
 
-
-// Hosting on ngrok
-
-https://ngrok.com/
-console input: ngrok http 80
-
-- Go to: chrome://flags/
-- Add ngrok site to: Insecure origins treated as secure
-
+// Copy the lab's privkey and fullchain to this file's root
 sudo ls /etc/letsencrypt/live/hci-mturk3.usask.ca/
 sudo nano /etc/letsencrypt/live/hci-mturk3.usask.ca/README
-
 sudo cp /etc/letsencrypt/live/hci-mturk3.usask.ca/privkey.pem /home/rir954/commonsense-bof/
 sudo cp /etc/letsencrypt/live/hci-mturk3.usask.ca/fullchain.pem /home/rir954/commonsense-bof/
 
-
+// Ensure run_heartrate.py has:
 app.debug = False
 app.run('0.0.0.0', port=443, keyfile='privkey.pem', certfile='fullchain.pem')
+
+// Port 443 is standard https port - which is accepted by Twitch embed API
 https://hci-mturk3.usask.ca:443
 
-If lab servers retarted, stop the apache process on port 443: sudo service apache2 stop
+// If lab servers retarted, stop the apache process on port 443: 
+sudo service apache2 stop
 
+// Ensure parents (in twitch_strean.html) are correctly set to the website in use:
 parent: ["www.hci-mturk3.usask.ca", "hci-mturk3.usask.ca"]

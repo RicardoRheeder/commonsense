@@ -15,6 +15,8 @@ Firebase
 ----------
 - Update chanel name
 - Ensure environmentFirst is either true or false
+- Ensure active_db is not set to 0
+- Ensure session/description is set to "Session0"
 
 ----------
 Chatty
@@ -29,3 +31,7 @@ OBS
 - Record twitch.tv stream
 - Record discord post-interview
 
+----------
+Unity Game
+----------
+- Ensure that the streamer has the correct Google drive link to download the zip file of the correct version of the game
